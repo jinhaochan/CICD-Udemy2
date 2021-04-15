@@ -1,9 +1,11 @@
 stages:
   - build
   - test
+  - deploy
+
+image: node
 
 build website:
-  image: node
   stage: build
   script:
     - npm cache clean --force
@@ -22,7 +24,6 @@ test artifact:
     - grep "Gatsby" ./public/index.html
 
 test website:
-  image: node
   stage: test
   script:
     - npm cache clean --force
@@ -33,3 +34,10 @@ test website:
     - gatsby serve&
     - sleep 3
     - curl "http://localhost:9000" | tac | tac | grep "Gatsby"
+
+deploy surge:
+  stage: deploy
+  script:
+    - npm install --global surge
+    - surge --project ./public --domain cicdsite.surge.sh
+
