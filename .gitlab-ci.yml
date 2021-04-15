@@ -2,6 +2,7 @@ stages:
   - build
   - test
   - deploy
+  - test deploy
 
 image: node
 
@@ -41,3 +42,9 @@ deploy surge:
     - npm install --global surge
     - surge --project ./public --domain cicdsite.surge.sh
 
+test deployment:
+  image: alpine
+  stage: test deploy
+  script:
+    - apk --no-cache add curl
+    - curl "cicdsite.surge.sh" | tac | tac | grep "Gatsby"
