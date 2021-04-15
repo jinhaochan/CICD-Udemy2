@@ -32,6 +32,7 @@ test website:
     - npm install -g gatsby-cli
     - gatsby clean
     - gatsby build
+    - sed -i "s/%%VERSION%%/$CI_COMMIT_SHORT_SHA/" ./public/index.html
     - gatsby serve&
     - sleep 3
     - curl "http://localhost:9000" | tac | tac | grep "Gatsby"
