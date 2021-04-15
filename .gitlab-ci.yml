@@ -30,5 +30,6 @@ test website:
     - npm install -g gatsby-cli
     - gatsby clean
     - gatsby build
-    - gatsby serve
-    - curl "http://localhost:9000" | grep "Gatsby"
+    - gatsby serve&
+    - sleep 3
+    - curl "http://localhost:9000" | tac | tac | grep "Gatsby"
