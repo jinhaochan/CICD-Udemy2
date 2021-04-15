@@ -1,5 +1,10 @@
+stages:
+  - build
+  -test
+
 build website:
   image: node
+  stage: build
   script:
     - npm cache clean --force
     - npm install
@@ -9,3 +14,21 @@ build website:
   artifacts:
     paths:
       - ./public
+
+test artifact:
+  image: alpine
+  stage: test
+  script:
+    - grep "Gatsby" ./public/index.html
+
+test website:
+  image: node
+  stage: test
+  script:
+    - npm cache clean --force
+    - npm install
+    - npm install -g gatsby-cli
+    - gatsby clean
+    - gatsby build
+    - gatsby serve
+    - curl "http://localhost:9000" | grep "Gatsby"
