@@ -1,6 +1,6 @@
 stages:
   - build
-  -test
+  - test
 
 build website:
   image: node
