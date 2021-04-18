@@ -9,8 +9,8 @@ stages:
 image: node
 
 variables:
-  STAGE = "http://cicdsite-stage.surge.sh"
-  PROD = "http://cicdsite-prod.surge.sh"
+  STAGE: "http://cicdsite-stage.surge.sh"
+  PROD: "http://cicdsite-prod.surge.sh"
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
