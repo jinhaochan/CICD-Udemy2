@@ -8,6 +8,10 @@ stages:
 
 image: node
 
+variables:
+  STAGE: "http://cicdsite-stage.surge.sh"
+  PROD: "http://cicdsite-prod.surge.sh"
+
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
@@ -48,30 +52,42 @@ deploy staging:
   stage: deploy staging
   environment:
     name: staging
-    url: cicdsite-stage.surge.sh
+    url: $STAGE
+  only:
+    - master
   script:
     - npm install --global surge
-    - surge --project ./public --domain cicdsite-stage.surge.sh
+    - surge --project ./public --domain $STAGE
 
 test staging:
   image: alpine
   stage: test staging
+  only:
+    - master
   script:
     - apk --no-cache add curl
-    - curl "cicdsite-stage.surge.sh" | tac | tac | grep "Gatsby"
+    - curl $STAGE | tac | tac | grep "Gatsby"
 
 deploy production:
   stage: deploy production
   environment:
     name: production
-    url: cicdsite-prod.surge.sh
+    url: $PROD
+  when: manual
+  allow_failure: false
+  only:
+    - master
   script:
     - npm install --global surge
-    - surge --project ./public --domain cicdsite-prod.surge.sh
+    - surge --project ./public --domain $PROD
 
 test production:
   image: alpine
   stage: test production
+  only:
+    - master
   script:
     - apk --no-cache add curl
-    - curl "cicdsite-prod.surge.sh" | tac | tac | grep "Gatsby"
+    - curl $PROD | tac | tac | grep "Gatsby"
+
+
