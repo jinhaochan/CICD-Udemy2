@@ -44,7 +44,7 @@ test website:
     - sleep 3
     - curl "http://localhost:9000" | tac | tac | grep "Gatsby"
 
-deploy surge stage:
+deploy staging:
   stage: deploy staging
   environment:
     name: staging
@@ -55,12 +55,12 @@ deploy surge stage:
 
 test staging:
   image: alpine
-  stage: test deploy
+  stage: test staging
   script:
     - apk --no-cache add curl
     - curl "cicdsite-stage.surge.sh" | tac | tac | grep "Gatsby"
 
-deploy surge prod:
+deploy production:
   stage: deploy production
   environment:
     name: production
@@ -71,7 +71,7 @@ deploy surge prod:
 
 test production:
   image: alpine
-  stage: test deploy
+  stage: test production
   script:
     - apk --no-cache add curl
     - curl "cicdsite-prod.surge.sh" | tac | tac | grep "Gatsby"
